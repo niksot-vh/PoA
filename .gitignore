@@ -1,0 +1,13 @@
+/usr/local/bin/*
+/bin/
+/artifacts/
+*.exe
+*.dll
+*.so
+*.dylib
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.iml
+
