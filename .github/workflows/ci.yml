@@ -39,9 +39,7 @@ jobs:
       - name: Build deb package
         run: |
           set -eux
-          cd src
           dpkg-deb --build . ../poapr.deb
-          cd ..
           mkdir -p artifacts
           mv poapr.deb artifacts/
 
