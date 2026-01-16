@@ -39,10 +39,9 @@ jobs:
       - name: Build deb package
         run: |
           set -eux
-          cd src
           dpkg-deb --build . poapr.deb
-          mkdir -p ../artifacts
-          mv poapr.deb ../artifacts/
+          mkdir -p artifacts
+          mv poapr.deb artifacts/
 
       # 6. Загрузка deb-пакета как артефакта
       - name: Upload deb artifact
