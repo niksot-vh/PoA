@@ -11,31 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонируем репозиторий
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Сборка программы через Makefile (C)
       - name: Build program
         run: |
           set -eux
           cd src
           make all
 
-      # 3. Запуск тестов
       - name: Run tests
         run: |
           set -eux
           chmod +x testing.sh
           ./testing.sh
 
-      # 4. Установка инструментов для упаковки в deb
       - name: Install packaging tools
         run: |
           sudo apt-get update
           sudo apt-get install -y dpkg-dev fakeroot
 
-      # 5. Сборка deb-пакета
       - name: Build deb package
         run: |
           set -eux
@@ -43,7 +38,6 @@ jobs:
           mkdir -p artifacts
           mv poapr.deb artifacts/
 
-      # 6. Загрузка deb-пакета как артефакта
       - name: Upload deb artifact
         uses: actions/upload-artifact@v4
         with:
@@ -55,24 +49,20 @@ jobs:
     needs: build-test-package
 
     steps:
-      # 1. Клонируем репозиторий
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Скачиваем deb-пакет
       - name: Download deb artifact
         uses: actions/download-artifact@v4
         with:
           name: poapr-deb
           path: .
 
-      # 3. Сборка Docker-образа
       - name: Build Docker image
         run: |
           set -eux
           docker build -t poapr:latest .
 
-      # 4. Запуск контейнера
       - name: Run Docker container
         run: |
           docker run --rm poapr:latest
